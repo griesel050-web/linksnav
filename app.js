@@ -13,7 +13,7 @@ const ORDER_KEY  = 'nexhub_order';
 const RECENTS_KEY = 'nexhub_recents';
 const MAX_RECENTS = 24;
 /* Bump this any time you need to bust the browser/CDN cache on app.js/style.css. */
-const BUILD_VERSION = '20260626-1';
+const BUILD_VERSION = '20260825-1';
 
 /* ── ANIMATIONS INIT ─────────────────────────────────────────── */
 (function initAnimations(){
@@ -26,9 +26,9 @@ const BUILD_VERSION = '20260626-1';
   }
 
   /* Skeleton placeholders while sites load */
-  const siteGridEl2 = document.getElementById('siteGrid');
-  if(siteGridEl2 && !siteGridEl2.children.length){
-    siteGridEl2.innerHTML = Array.from({length: 12}, () => `
+  const cardsGridEl2 = document.getElementById('cardsGrid');
+  if(cardsGridEl2 && !cardsGridEl2.children.length){
+    cardsGridEl2.innerHTML = Array.from({length: 12}, () => `
       <div class="skeleton-card">
         <div class="skeleton skeleton-title"></div>
         <div class="skeleton skeleton-line"></div>
@@ -48,9 +48,9 @@ const BUILD_VERSION = '20260626-1';
   });
 
   /* Ripple on card clicks */
-  const siteGridEl = document.getElementById('siteGrid');
-  if(siteGridEl){
-    siteGridEl.addEventListener('click', e => {
+  const cardsGridEl = document.getElementById('cardsGrid');
+  if(cardsGridEl){
+    cardsGridEl.addEventListener('click', e => {
       const card = e.target.closest('.card');
       if(!card) return;
       const r = document.createElement('span');
@@ -65,7 +65,7 @@ const BUILD_VERSION = '20260626-1';
     });
 
     /* 3D tilt on mouse move */
-    siteGridEl.addEventListener('mousemove', e => {
+    cardsGridEl.addEventListener('mousemove', e => {
       const wrap = e.target.closest('.card-wrap');
       if(!wrap) return;
       const rect = wrap.getBoundingClientRect();
@@ -73,7 +73,7 @@ const BUILD_VERSION = '20260626-1';
       const y = ((e.clientY - rect.top)  / rect.height - .5) * -7;
       wrap.style.transform = `translateY(-4px) rotateX(${y}deg) rotateY(${x}deg)`;
     });
-    siteGridEl.addEventListener('mouseleave', e => {
+    cardsGridEl.addEventListener('mouseleave', e => {
       const wrap = e.target.closest('.card-wrap');
       if(wrap) wrap.style.transform = '';
     }, true);
@@ -640,11 +640,10 @@ function render(){
   const label=document.getElementById('sectionLabel');
   const countEl=document.getElementById('siteCount');
   const grid=document.getElementById('cardsGrid');
-  const siteGrid=document.getElementById('siteGrid');
   const empty=document.getElementById('emptyState');
   const hint=document.getElementById('dragHint');
   /* Clear skeleton placeholders on first real render */
-  if(siteGrid) siteGrid.querySelectorAll('.skeleton-card').forEach(s=>s.remove());
+  if(grid) grid.querySelectorAll('.skeleton-card').forEach(s=>s.remove());
 
   if(activeCategory==='__favorites__') label.innerHTML=`${catIconHTML('★')} Favorites`;
   else if(activeCategory==='__recent__') label.innerHTML=`${catIconHTML('🕓')} Recently Visited`;
